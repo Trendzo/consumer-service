@@ -1,19 +1,15 @@
-const express = require('express');
+const { port } = require("./config/appConfig.js");
+const connectDB = require("./frameworksAndDrivers/persistence/connection.js");
+const app = require("./frameworksAndDrivers/web/server.js");
 
-const app = express();
-const port = process.env.PORT || 5000;
+async function bootstrap() {
+  await connectDB();
+  app.listen(port, () => {
+    console.log(`🚀 Consumer-Service running on port ${port}`);
+  });
+}
 
-// Middleware
-app.use(express.json());
-
-// Routes
-app.get('/', (req, res) => {
-    res.send('Welcome to the Trendzo Backend!');
+bootstrap().catch((err) => {
+  console.error("Startup failed:", err);
+  process.exit(1);
 });
-
-// Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
-
-
