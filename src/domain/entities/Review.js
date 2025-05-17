@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const CartItemSchema = new mongoose.Schema(
+const ReviewSchema = new mongoose.Schema(
   {
     userId: { type: String, required: true },
     productId: {
@@ -8,8 +8,9 @@ const CartItemSchema = new mongoose.Schema(
       ref: "Product",
       required: true,
     },
-    quantity: { type: Number, default: 1 },
+    rating: { type: Number, required: true, min: 1, max: 5 },
+    comment: { type: String },
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("CartItem", CartItemSchema);
+module.exports = mongoose.model("Review", ReviewSchema);
